@@ -10,9 +10,6 @@ jobs:
   # TRABAJO 1: FORMAT CHECK (Estilo)
   format:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./Examen02/HabitTracker
     steps:
       - uses: actions/checkout@v4
       - name: Set up JDK 21
@@ -27,9 +24,6 @@ jobs:
   # TRABAJO 2: LINT (Calidad)
   lint:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./Examen02/HabitTracker
     steps:
       - uses: actions/checkout@v4
       - name: Set up JDK 21
@@ -44,9 +38,6 @@ jobs:
   # TRABAJO 3: TESTS & COBERTURA
   test:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./Examen02/HabitTracker
     steps:
       - uses: actions/checkout@v4
       - name: Set up JDK 21
@@ -62,15 +53,12 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: jacoco-report
-          path: Examen02/HabitTracker/target/site/jacoco/
+          path: target/site/jacoco/
 
   # TRABAJO 4: BUILD (Compilación)
   build:
     needs: [format, lint, test]
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./Examen02/HabitTracker
     steps:
       - uses: actions/checkout@v4
       - name: Set up JDK 21
@@ -98,6 +86,6 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           # IMPORTANTE: Aquí indicamos dónde está el Dockerfile
-          context: ./Examen02/HabitTracker
+          context: .
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/habit-tracker:latest
